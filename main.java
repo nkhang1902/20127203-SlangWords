@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.io.FileWriter;
 public class SlangDictionary_PA01 {
     public static HashMap<String,List<String>> slang=new HashMap<String,List<String>>();
     public static Scanner word= new Scanner(System.in);
