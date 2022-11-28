@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Scanner;
-
-import javax.security.auth.kerberos.KerberosKey;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
@@ -116,7 +114,7 @@ class SlangDictionary_PA01 {
         JPanel typeIn4 = new JPanel();
         JPanel typeIn5 = new JPanel();
         JPanel typeIn6 = new JPanel();
-
+        GridBagLayout gridBagLayout = new GridBagLayout();
         mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         mainPanel.setLayout(new GridLayout(1,2));
         leftPanel.setBorder(new TitledBorder("Functions"));
@@ -124,11 +122,12 @@ class SlangDictionary_PA01 {
         historyPanel.setBorder(new TitledBorder("History"));
         historyPanel.setLayout(new GridLayout(1,1));
         leftFlow1.setBorder(new TitledBorder("Add, edit, delete"));
-        leftFlow1.setLayout(new GridLayout(3,1));
+        //leftFlow1.setLayout(new GridLayout(3,1));
+        leftFlow1.setLayout(gridBagLayout);
         leftFlow2.setBorder(new TitledBorder("Search"));
-        leftFlow2.setLayout(new GridLayout(0,1));
-        leftFlow3.setBorder(new TitledBorder("Random"));
-        leftFlow3.setLayout(new GridLayout(3,1));
+        leftFlow2.setLayout(gridBagLayout);
+        leftFlow3.setBorder(new TitledBorder("On this day slang word"));
+        leftFlow3.setLayout(gridBagLayout);
         BoxLayout boxlayout = new BoxLayout(rightPanel, BoxLayout.Y_AXIS);
         rightPanel.setLayout(boxlayout);
         leftPanel.setLayout(new GridLayout(5,1));
@@ -147,24 +146,24 @@ class SlangDictionary_PA01 {
         typeIn3.add(addButton);
         typeIn3.add(editButton);
         typeIn3.add(delButton);
-        leftFlow1.add(typeIn1);
-        leftFlow1.add(typeIn2);
-        leftFlow1.add(typeIn3);
+        leftFlow1.add(typeIn1, new GridBagConstraints(0, 5, 1, 1, 1.0, 1.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
+        leftFlow1.add(typeIn2, new GridBagConstraints(0, 5, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
+        leftFlow1.add(typeIn3, new GridBagConstraints(0, 5, 1, 1, 1.0, 1.0, GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
         
         flow2.add(keywordLabel);
         flow2.add(keywordField);
         flow2.add(keyBox);
         flow2.add(searchButton);
-        leftFlow2.add(flow2);
+        leftFlow2.add(flow2, new GridBagConstraints(0, 5, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
 
         typeIn4.add(slangLabel1);
         typeIn4.add(slangField1);
         typeIn5.add(defLabel1);
         typeIn5.add(defField1);
         typeIn6.add(ranButton);
-        leftFlow3.add(typeIn4);
-        leftFlow3.add(typeIn5);
-        leftFlow3.add(typeIn6);
+        leftFlow3.add(typeIn4, new GridBagConstraints(0, 5, 1, 1, 1.0, 1.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
+        leftFlow3.add(typeIn5, new GridBagConstraints(0, 5, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
+        leftFlow3.add(typeIn6, new GridBagConstraints(0, 5, 1, 1, 1.0, 1.0, GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
 
         leftPanel.add(leftFlow2);
         leftPanel.add(leftFlow1);
