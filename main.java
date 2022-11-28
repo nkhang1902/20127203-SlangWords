@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Scanner;
+
+import javax.security.auth.kerberos.KerberosKey;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.BoxLayout;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -45,20 +47,19 @@ class SlangDictionary_PA01 {
 
     public static void UI() {
         // Create and set up a frame window
-        JFrame frame = new JFrame("Layout");
+        JFrame frame = new JFrame("Slang Dictionary");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Define new buttons
         String[] columnNames = { "Slang", "Definition"};
         Set<String> keySet = slang.keySet();
         List<String> listOfKeys = new ArrayList<String>(keySet);
-         // Getting Collection of values from HashMap
-        Collection<List<String>> values = slang.values();
-        List<List<String>> listOfValues = new ArrayList<>(values);
+        // Getting Collection of values from HashMap
+        //Collection<List<String>> values = slang.values();
+        //List<List<String>> listOfValues = new ArrayList<>(values);
         //System.out.println("The Keys of the Map are " + listOfKeys);
         //System.out.println("The Values of the Map are " + listOfValues);
         int i=0;
-        String[][] data = new String[listOfKeys.size()+100][2];
+        String[][] data = new String[listOfKeys.size()+50][2];
         for (Map.Entry<String, List<String>> set : slang.entrySet()) {
              data[i][0]= set.getKey();
              data[i][1]= String.join(",",set.getValue());
@@ -69,39 +70,113 @@ class SlangDictionary_PA01 {
         JTable table = new JTable(data,columnNames);
         table.setEnabled(false);
 
+        String[] combobox = {"Slang" , "Definition"};
+
         //Button
+        JLabel slangLabel = new JLabel("Slang       ");
+        JTextField slangField = new JTextField("",20);
+        JLabel defLabel = new JLabel("Definition");
+        JTextField defField = new JTextField("",20);
+        JLabel slangLabel1 = new JLabel("Slang       ");
+        JTextField slangField1 = new JTextField("",20);
+        JLabel defLabel1 = new JLabel("Definition");
+        JTextField defField1 = new JTextField("",20);
+        JLabel keywordLabel = new JLabel("Keyword");
+        JComboBox keyBox = new JComboBox<>(combobox);
+        JTextField keywordField = new JTextField("",20);
+        JButton searchButton = new JButton("Search");
         JButton addButton = new JButton("Add");
-        JButton ediButton = new JButton("Edit");
+        JButton editButton = new JButton("Edit");
         JButton delButton = new JButton("Delete");
+        JButton ranButton = new JButton("Random");
         JButton resetButton = new JButton("Reset to default");
+        JButton historyButton = new JButton("Searching history");
+        addButton.setFocusable(false);
+        ranButton.setFocusable(false);
+        editButton.setFocusable(false);
+        delButton.setFocusable(false);
         resetButton.setFocusable(false);
+        historyButton.setFocusable(false);
         resetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JList historyArea = new JList(History.toArray());
+        JList historyList = new JList(History.toArray());
         
         // Define the panel
         JPanel mainPanel = new JPanel();
         JPanel leftPanel = new JPanel();
         JPanel rightPanel = new JPanel();
         JPanel historyPanel = new JPanel();
-        JPanel buttonPanel1 = new JPanel();
+        JPanel rightFlow = new JPanel();
+        JPanel leftFlow1 = new JPanel();
+        JPanel leftFlow2 = new JPanel();
+        JPanel leftFlow3 = new JPanel();
+        JPanel flow2 = new JPanel();
+        JPanel typeIn1 = new JPanel();
+        JPanel typeIn2 = new JPanel();
+        JPanel typeIn3 = new JPanel();
+        JPanel typeIn4 = new JPanel();
+        JPanel typeIn5 = new JPanel();
+        JPanel typeIn6 = new JPanel();
+
         mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         mainPanel.setLayout(new GridLayout(1,2));
         leftPanel.setBorder(new TitledBorder("Functions"));
         rightPanel.setBorder(new TitledBorder("Slang List"));
         historyPanel.setBorder(new TitledBorder("History"));
         historyPanel.setLayout(new GridLayout(1,1));
+        leftFlow1.setBorder(new TitledBorder("Add, edit, delete"));
+        leftFlow1.setLayout(new GridLayout(3,1));
+        leftFlow2.setBorder(new TitledBorder("Search"));
+        leftFlow2.setLayout(new GridLayout(0,1));
+        leftFlow3.setBorder(new TitledBorder("Random"));
+        leftFlow3.setLayout(new GridLayout(3,1));
         BoxLayout boxlayout = new BoxLayout(rightPanel, BoxLayout.Y_AXIS);
         rightPanel.setLayout(boxlayout);
+        leftPanel.setLayout(new GridLayout(5,1));
+        //leftPanel.setLayout(new BoxLayout());
+        //BoxLayout boxlayout2 = new BoxLayout(leftPanel, BoxLayout.Y_AXIS);
+        //leftPanel.setLayout(boxlayout2);
         
         
         mainPanel.add(leftPanel);
         mainPanel.add(rightPanel);
+
+        typeIn1.add(slangLabel);
+        typeIn1.add(slangField);
+        typeIn2.add(defLabel);
+        typeIn2.add(defField);
+        typeIn3.add(addButton);
+        typeIn3.add(editButton);
+        typeIn3.add(delButton);
+        leftFlow1.add(typeIn1);
+        leftFlow1.add(typeIn2);
+        leftFlow1.add(typeIn3);
+        
+        flow2.add(keywordLabel);
+        flow2.add(keywordField);
+        flow2.add(keyBox);
+        flow2.add(searchButton);
+        leftFlow2.add(flow2);
+
+        typeIn4.add(slangLabel1);
+        typeIn4.add(slangField1);
+        typeIn5.add(defLabel1);
+        typeIn5.add(defField1);
+        typeIn6.add(ranButton);
+        leftFlow3.add(typeIn4);
+        leftFlow3.add(typeIn5);
+        leftFlow3.add(typeIn6);
+
+        leftPanel.add(leftFlow2);
+        leftPanel.add(leftFlow1);
+        leftPanel.add(leftFlow3);
+
+        rightFlow.add(resetButton);
+        rightFlow.add(historyButton);
+
         rightPanel.add(table);
         rightPanel.add(new JScrollPane(table));
-        rightPanel.add(resetButton);
-        rightPanel.add(historyPanel);
-        historyPanel.add(historyArea);
-        historyPanel.add(new JScrollPane(historyArea));
+        rightPanel.add(rightFlow);
+        
 
         // Set the window to be visible as the default to be false
         frame.add(mainPanel);
