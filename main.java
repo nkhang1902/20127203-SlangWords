@@ -1,12 +1,15 @@
 import java.io.*;
-
+import java.awt.event.*;
+import java.util.regex.*;
 import java.util.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Scanner;
 import javax.swing.*;
+import javax.swing.table.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.Action;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -42,8 +45,29 @@ class SlangDictionary_PA01 {
         System.out.println("ERROR"+ex);
     }
     }
+    
+    public static JLabel slangLabel = new JLabel("Slang       ");
+    public static  JTextField slangField = new JTextField("",20);
+    public static JLabel defLabel = new JLabel("Definition");
+    public static  JTextField defField = new JTextField("",20);
+    public static JLabel slangLabel1 = new JLabel("Slang       ");
+    public static JTextField slangField1 = new JTextField("",20);
+    public static JLabel defLabel1 = new JLabel("Definition");
+    public static JTextField defField1 = new JTextField("",20);
+    public static JLabel keywordLabel = new JLabel("Keyword");
+    public static JComboBox keyBox ;
+    public static JTextField keywordField = new JTextField("",20);
+    public static JButton searchButton = new JButton("Search");
+    public static JButton addButton = new JButton("Add");
+    public static JButton editButton = new JButton("Edit");
+    public static JButton delButton = new JButton("Delete");
+    public static JButton ranButton = new JButton("Random");
+    public static JButton resetButton = new JButton("Reset to default");
+    public static JButton historyButton = new JButton("Searching history");
+    
+    public static JTable table;
 
-    public static void UI() {
+    public static void UI_layout() {
         // Create and set up a frame window
         JFrame frame = new JFrame("Slang Dictionary");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,32 +87,24 @@ class SlangDictionary_PA01 {
              data[i][1]= String.join(",",set.getValue());
              i++;
         }
+        TableModel model = new DefaultTableModel(data, columnNames) {
+            public Class getColumnClass(int column) {
+               Class returnValue;
+               if((column >= 0) && (column < getColumnCount())) {
+                  returnValue = getValueAt(0, column).getClass();
+               } else {
+                  returnValue = Object.class;
+               }
+               return returnValue;
+            }
+        };
   
-
-        JTable table = new JTable(data,columnNames);
+        table = new JTable(model);
+        
         table.setEnabled(false);
-
         String[] combobox = {"Slang" , "Definition"};
-
+        keyBox = new JComboBox<>(combobox);
         //Button
-        JLabel slangLabel = new JLabel("Slang       ");
-        JTextField slangField = new JTextField("",20);
-        JLabel defLabel = new JLabel("Definition");
-        JTextField defField = new JTextField("",20);
-        JLabel slangLabel1 = new JLabel("Slang       ");
-        JTextField slangField1 = new JTextField("",20);
-        JLabel defLabel1 = new JLabel("Definition");
-        JTextField defField1 = new JTextField("",20);
-        JLabel keywordLabel = new JLabel("Keyword");
-        JComboBox keyBox = new JComboBox<>(combobox);
-        JTextField keywordField = new JTextField("",20);
-        JButton searchButton = new JButton("Search");
-        JButton addButton = new JButton("Add");
-        JButton editButton = new JButton("Edit");
-        JButton delButton = new JButton("Delete");
-        JButton ranButton = new JButton("Random");
-        JButton resetButton = new JButton("Reset to default");
-        JButton historyButton = new JButton("Searching history");
         addButton.setFocusable(false);
         ranButton.setFocusable(false);
         editButton.setFocusable(false);
@@ -175,7 +191,24 @@ class SlangDictionary_PA01 {
         rightPanel.add(table);
         rightPanel.add(new JScrollPane(table));
         rightPanel.add(rightFlow);
-        
+
+        //1. Search
+        final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
+        table.setRowSorter(sorter);
+        searchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               String text = keywordField.getText();
+               if(text.length() == 0) {
+                  sorter.setRowFilter(null);
+               } else {
+                  try {
+                     sorter.setRowFilter(RowFilter.regexFilter(text));
+                  } catch(PatternSyntaxException pse) {
+                        System.out.println("Bad regex pattern");
+                  }
+                }
+            }
+         });
 
         // Set the window to be visible as the default to be false
         frame.add(mainPanel);
@@ -183,9 +216,13 @@ class SlangDictionary_PA01 {
         frame.setVisible(true);    
     }
 
+    public static void addAction(){
+        
+    }
     public static void main(String[] args)
     {
         getFromTxt();
-        UI();
+        UI_layout();
+        addAction();
     }
 }
