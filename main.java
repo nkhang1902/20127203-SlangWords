@@ -193,16 +193,27 @@ class SlangDictionary_PA01 {
         rightPanel.add(rightFlow);
 
         //1. Search
+        List<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>(2);
+        RowFilter rf;
+        //filters.add(RowFilter.regexFilter(textField1.getText(), 0));
+        //filters.add(RowFilter.regexFilter(textField2.getText(), 1));
+        rf = RowFilter.andFilter(filters);
         final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
         table.setRowSorter(sorter);
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                String text = keywordField.getText();
+               String s = (String) keyBox.getSelectedItem();
                if(text.length() == 0) {
                   sorter.setRowFilter(null);
                } else {
                   try {
-                     sorter.setRowFilter(RowFilter.regexFilter(text));
+                    if (s=="Slang"){
+                        sorter.setRowFilter(RowFilter.regexFilter(text,0));
+                    }
+                    if (s=="Definition"){
+                        sorter.setRowFilter(RowFilter.regexFilter(text,1));
+                    }
                   } catch(PatternSyntaxException pse) {
                         System.out.println("Bad regex pattern");
                   }
