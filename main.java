@@ -102,12 +102,16 @@ class SlangDictionary_PA01 {
         JFrame frame = new JFrame("Slang Dictionary");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        JFrame historyFrame = new JFrame("Search History");
+
         table = new JTable(model);
 
         // table.setEnabled(false);
         String[] combobox = { "Slang", "Definition" };
+        String[] historyColumn = { "Keyword", "Element" };
         keyBox = new JComboBox<>(combobox);
         // Button
+        searchButton.setFocusable(false);
         addButton.setFocusable(false);
         ranButton.setFocusable(false);
         editButton.setFocusable(false);
@@ -117,8 +121,8 @@ class SlangDictionary_PA01 {
         resetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         slangField1.setEditable(false);
         defField1.setEditable(false);
-        JList historyList = new JList(History.toArray());
 
+        
         // Define the panel
         JPanel mainPanel = new JPanel();
         JPanel leftPanel = new JPanel();
@@ -203,13 +207,17 @@ class SlangDictionary_PA01 {
         rightPanel.add(new JScrollPane(table));
         rightPanel.add(rightFlow);
 
+        JList historyList;
+        DefaultListModel listModel = new DefaultListModel();
+        
+
         // 1. Search
         final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
         table.setRowSorter(sorter);
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String text = keywordField.getText();
-                History.add(text);
+                listModel.add(0, text);
                 String s = (String) keyBox.getSelectedItem();
                 if (text.length() == 0) {
                     sorter.setRowFilter(null);
@@ -230,7 +238,9 @@ class SlangDictionary_PA01 {
                 }
             }
         });
+
         DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+
         // 2. Add
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -258,7 +268,7 @@ class SlangDictionary_PA01 {
                     JOptionPane.showMessageDialog(frame, "Please insert slang to delete!");
                 } else {
 
-                    int click = JOptionPane.showConfirmDialog(null, "You want to delete " + sl +" ?");
+                    int click = JOptionPane.showConfirmDialog(null, "You want to delete " + sl + " ?");
                     if (click == JOptionPane.YES_OPTION) {
                         selectedRow = getRowByValue(dtm, sl);
                         if (selectedRow < 0) {
@@ -306,9 +316,35 @@ class SlangDictionary_PA01 {
             }
         });
 
+        // 6. Reset
+        resetButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                sorter.setRowFilter(null);
+                while (dtm.getRowCount() > 0) {
+                    dtm.removeRow(0);
+                }
+                int i=0;
+                while (i<rowsize)
+                {
+                    dtm.addRow(new Object[]{data[i][0], data[i][1]});
+                    i++;
+                }
+            }
+        });
+
+        // 7. History
+        historyButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JList historyList = new JList(listModel);
+                historyFrame.add(historyList);
+                historyFrame.setSize(300, 300);
+                historyFrame.setVisible(true);
+                //System.out.println(History);
+            }
+        });
         // Set the window to be visible as the default to be false
         frame.add(mainPanel);
-        frame.setSize(1000, 700);
+        frame.setSize(1200, 700);
         frame.setVisible(true);
     }
 
