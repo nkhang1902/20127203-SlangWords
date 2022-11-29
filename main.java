@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.Action;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -64,6 +65,10 @@ class SlangDictionary_PA01 {
     public static JButton ranButton = new JButton("Random");
     public static JButton resetButton = new JButton("Reset to default");
     public static JButton historyButton = new JButton("Searching history");
+    public static DefaultTableModel model;
+    public static int rowsize;
+    public static List<String> listOfKeys;
+    public static String[][] data;
     
     public static JTable table;
 
@@ -74,20 +79,21 @@ class SlangDictionary_PA01 {
 
         String[] columnNames = { "Slang", "Definition"};
         Set<String> keySet = slang.keySet();
-        List<String> listOfKeys = new ArrayList<String>(keySet);
+        listOfKeys = new ArrayList<String>(keySet);
+        rowsize = listOfKeys.size();
         // Getting Collection of values from HashMap
         //Collection<List<String>> values = slang.values();
         //List<List<String>> listOfValues = new ArrayList<>(values);
         //System.out.println("The Keys of the Map are " + listOfKeys);
         //System.out.println("The Values of the Map are " + listOfValues);
         int i=0;
-        String[][] data = new String[listOfKeys.size()+50][2];
+         data = new String[rowsize][2];
         for (Map.Entry<String, List<String>> set : slang.entrySet()) {
              data[i][0]= set.getKey();
              data[i][1]= String.join(",",set.getValue());
              i++;
         }
-        TableModel model = new DefaultTableModel(data, columnNames) {
+        model = new DefaultTableModel(data, columnNames) {
             public Class getColumnClass(int column) {
                Class returnValue;
                if((column >= 0) && (column < getColumnCount())) {
@@ -101,7 +107,7 @@ class SlangDictionary_PA01 {
   
         table = new JTable(model);
         
-        table.setEnabled(false);
+        //table.setEnabled(false);
         String[] combobox = {"Slang" , "Definition"};
         keyBox = new JComboBox<>(combobox);
         //Button
@@ -112,6 +118,8 @@ class SlangDictionary_PA01 {
         resetButton.setFocusable(false);
         historyButton.setFocusable(false);
         resetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        slangField1.setEditable(false);
+        defField1.setEditable(false);
         JList historyList = new JList(History.toArray());
         
         // Define the panel
@@ -193,31 +201,63 @@ class SlangDictionary_PA01 {
         rightPanel.add(rightFlow);
 
         //1. Search
-        List<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>(2);
-        RowFilter rf;
-        //filters.add(RowFilter.regexFilter(textField1.getText(), 0));
-        //filters.add(RowFilter.regexFilter(textField2.getText(), 1));
-        rf = RowFilter.andFilter(filters);
         final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
         table.setRowSorter(sorter);
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                String text = keywordField.getText();
+               History.add(text);
                String s = (String) keyBox.getSelectedItem();
                if(text.length() == 0) {
                   sorter.setRowFilter(null);
                } else {
                   try {
                     if (s=="Slang"){
+                        text = text.toUpperCase();
                         sorter.setRowFilter(RowFilter.regexFilter(text,0));
+                        keywordField.setText("");
                     }
                     if (s=="Definition"){
                         sorter.setRowFilter(RowFilter.regexFilter(text,1));
+                        keywordField.setText("");
                     }
                   } catch(PatternSyntaxException pse) {
                         System.out.println("Bad regex pattern");
                   }
                 }
+            }
+         });
+         DefaultTableModel dtm = (DefaultTableModel)table.getModel();
+         //2. Add
+         addButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               String sl = slangField.getText().toUpperCase();
+               String def = defField.getText();
+               if(sl.length() == 0  ||  def.length() == 0) {
+                    JOptionPane.showMessageDialog(frame, "Please fill out the information!");
+               } else {
+                    
+                    dtm.addRow(new Object[]{sl, def});
+                    slangField.setText("");
+                    defField.setText("");
+                    rowsize++;
+                    JOptionPane.showMessageDialog(frame, "Slang added successfully!");
+                    
+                }
+            }
+         });
+
+         //3. Delete
+         delButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow >=0)
+            {
+                System.out.println(dtm.getValueAt(selectedRow, 0));
+                dtm.removeRow(selectedRow);
+                JOptionPane.showMessageDialog(frame, "Slang deleted successfully!");
+                rowsize--;
+            }
             }
          });
 

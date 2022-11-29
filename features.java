@@ -1,61 +1,89 @@
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
- 
- class JTableExamples {
-    // frame
-    JFrame f;
-    // Table
-    JTable j;
- 
-    // Constructor
-    JTableExamples()
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.table.*;
+
+ class FilterSSCCE extends JPanel
+{
+    private JTable table;
+
+    public FilterSSCCE()
     {
-        // Frame initialization
-        f = new JFrame();
- 
-        // Frame Title
-        f.setTitle("JTable Example");
- 
-        // Data to be displayed in the JTable
-        String[][] data = {
-            { "Kundan Kumar Jha", "4031", "CSE" },
-            { "Kundan Kumar Jha", "4031", "CSE" },
-            { "Kundan Kumar Jha", "4031", "CSE" },
-            { "Kundan Kumar Jha", "4031", "CSE" },
-            { "Kundan Kumar Jha", "4031", "CSE" },
-            { "Kundan Kumar Jha", "4031", "CSE" },
-            { "Kundan Kumar Jha", "4031", "CSE" },
-            { "Kundan Kumar Jha", "4031", "CSE" },
-            { "Kundan Kumar Jha", "4031", "CSE" },
-            { "Kundan Kumar Jha", "4031", "CSE" },
-            { "Kundan Kumar Jha", "4031", "CSE" },
-            { "Kundan Kumar Jha", "4031", "CSE" },
-            { "Kundan Kumar Jha", "4031", "CSE" },
-            { "Kundan Kumar Jha", "4031", "CSE" },
-            
-            { "Anand Jha", "6014", "IT" }
-        };
- 
-        // Column Names
-        String[] columnNames = { "Name", "Roll Number", "Department" };
- 
-        // Initializing the JTable
-        j = new JTable(data, columnNames);
-        j.setBounds(30, 40, 200, 300);
- 
-        // adding it to JScrollPane
-        JScrollPane sp = new JScrollPane(j);
-        f.add(sp);
-        // Frame Size
-        f.setSize(500, 200);
-        // Frame Visible = true
-        f.setVisible(true);
+        setLayout( new BorderLayout() );
+
+        JComboBox<Integer> comboBox = new JComboBox<Integer>();
+        comboBox.addItem( new Integer(1) );
+        comboBox.addItem( new Integer(2) );
+        comboBox.addItem( new Integer(3) );
+        comboBox.addItem( new Integer(4) );
+        comboBox.addItem( new Integer(5) );
+        comboBox.setSelectedIndex(4);
+
+        comboBox.addActionListener( new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                //System.out.println( table.convertRowIndexToView(4) );
+                Integer value = (Integer)comboBox.getSelectedItem();
+                newFilter( value );
+                //System.out.println( table.convertRowIndexToView(4) );
+            }
+        });
+        add(comboBox, BorderLayout.NORTH);
+
+        table = new JTable(5, 1);
+
+        for (int i = 0; i < table.getRowCount(); i++)
+            table.setValueAt(String.valueOf(i+1), i, 0);
+
+        table.setAutoCreateRowSorter(true);
+        JScrollPane scrollPane = new JScrollPane(table);
+        add(scrollPane, BorderLayout.CENTER);
     }
- 
-    // Driver  method
+
+    private void newFilter(int numberOfRows)
+    {
+        System.out.println("Change the Filter to: " + numberOfRows);
+
+        RowFilter<TableModel, Integer> filter = new RowFilter<TableModel, Integer>()
+        {
+            @Override
+            public boolean include(RowFilter.Entry<? extends TableModel, ? extends Integer> entry)
+            {
+                int modelRow = entry.getIdentifier();
+                int viewRow = table.convertRowIndexToView(modelRow);
+
+                System.out.println("m" + modelRow + " : v" + viewRow);
+
+                return viewRow < numberOfRows;
+            }
+
+        };
+
+        ((TableRowSorter) table.getRowSorter()).setRowFilter(filter);
+    }
+
+    private static void createAndShowGUI()
+    {
+        JPanel panel = new JPanel();
+
+        JFrame frame = new JFrame("FilterSSCCE");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(new FilterSSCCE());
+        frame.setLocationByPlatform( true );
+        frame.pack();
+        frame.setVisible( true );
+    }
+
     public static void main(String[] args)
     {
-        new JTableExamples();
+        EventQueue.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                createAndShowGUI();
+            }
+        });
     }
 }
