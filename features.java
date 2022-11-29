@@ -1,89 +1,44 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.table.*;
-
- class FilterSSCCE extends JPanel
-{
-    private JTable table;
-
-    public FilterSSCCE()
-    {
-        setLayout( new BorderLayout() );
-
-        JComboBox<Integer> comboBox = new JComboBox<Integer>();
-        comboBox.addItem( new Integer(1) );
-        comboBox.addItem( new Integer(2) );
-        comboBox.addItem( new Integer(3) );
-        comboBox.addItem( new Integer(4) );
-        comboBox.addItem( new Integer(5) );
-        comboBox.setSelectedIndex(4);
-
-        comboBox.addActionListener( new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                //System.out.println( table.convertRowIndexToView(4) );
-                Integer value = (Integer)comboBox.getSelectedItem();
-                newFilter( value );
-                //System.out.println( table.convertRowIndexToView(4) );
-            }
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+class ConfirmDialogDemo extends JFrame {
+    public ConfirmDialogDemo() {
+        setSize(250, 100);
+        setVisible(true);
+        setLocation(500, 300);
+        setResizable(false);
+        setTitle("JButton Demo");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Create label
+        JLabel label = new JLabel("A JLabel");
+        add(label);
+        // Create button
+        JButton button = new JButton("Click me");
+        add(button, "North", 1);
+        // add ActionListener
+        button.addActionListener(new ActionListener() {
+             @Override
+             public void actionPerformed(ActionEvent arg0) {
+                 int click = JOptionPane.showConfirmDialog(null, "This is a confirm dialog");
+                 if (click==JOptionPane.YES_OPTION) {
+                      JOptionPane.showMessageDialog(null, "Click Yes");
+                 }
+                 if (click==JOptionPane.NO_OPTION) {
+                      JOptionPane.showMessageDialog(null, "Click No");
+                 }
+                 if (click==JOptionPane.CANCEL_OPTION) {
+                      JOptionPane.showMessageDialog(null, "Click Cancel");
+                 }
+                 if (click==JOptionPane.CLOSED_OPTION) {
+                      JOptionPane.showMessageDialog(null, "Click Close");
+                 }
+             }
         });
-        add(comboBox, BorderLayout.NORTH);
-
-        table = new JTable(5, 1);
-
-        for (int i = 0; i < table.getRowCount(); i++)
-            table.setValueAt(String.valueOf(i+1), i, 0);
-
-        table.setAutoCreateRowSorter(true);
-        JScrollPane scrollPane = new JScrollPane(table);
-        add(scrollPane, BorderLayout.CENTER);
     }
-
-    private void newFilter(int numberOfRows)
-    {
-        System.out.println("Change the Filter to: " + numberOfRows);
-
-        RowFilter<TableModel, Integer> filter = new RowFilter<TableModel, Integer>()
-        {
-            @Override
-            public boolean include(RowFilter.Entry<? extends TableModel, ? extends Integer> entry)
-            {
-                int modelRow = entry.getIdentifier();
-                int viewRow = table.convertRowIndexToView(modelRow);
-
-                System.out.println("m" + modelRow + " : v" + viewRow);
-
-                return viewRow < numberOfRows;
-            }
-
-        };
-
-        ((TableRowSorter) table.getRowSorter()).setRowFilter(filter);
-    }
-
-    private static void createAndShowGUI()
-    {
-        JPanel panel = new JPanel();
-
-        JFrame frame = new JFrame("FilterSSCCE");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new FilterSSCCE());
-        frame.setLocationByPlatform( true );
-        frame.pack();
-        frame.setVisible( true );
-    }
-
-    public static void main(String[] args)
-    {
-        EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                createAndShowGUI();
-            }
-        });
+    public static void main(String[] args) {
+        ConfirmDialogDemo confirmDialog = new ConfirmDialogDemo();
     }
 }
