@@ -75,7 +75,7 @@ class SlangDictionary_PA01 {
     public static String[][] data;
     public static int answer;
     public static String a,b,c,d, ans, question;
-    public static JTextField ques = new JTextField("Press to play!!", 40);
+    public static JTextField ques = new JTextField("Press to play!!", 20);
 
 
     public static JTable table;
