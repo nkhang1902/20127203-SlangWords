@@ -60,6 +60,16 @@ class SlangDictionary_PA01 {
     public static JButton ranButton = new JButton("Random");
     public static JButton resetButton = new JButton("Reset to default");
     public static JButton historyButton = new JButton("Searching history");
+    public static JButton aButton = new JButton("A");
+    public static JButton bButton = new JButton("B");
+    public static JButton cButton = new JButton("C");
+    public static JButton dButton = new JButton("D");
+    public static JTextField aField = new JTextField("", 20);
+    public static JTextField bField = new JTextField("", 20);
+    public static JTextField cField = new JTextField("", 20);
+    public static JTextField dField = new JTextField("", 20);
+    public static JComboBox quizBox;
+    public static JButton letsquiz = new JButton("Let's Quiz");
     public static DefaultTableModel model;
     public static int rowsize;
     public static List<String> listOfKeys;
@@ -132,6 +142,7 @@ class SlangDictionary_PA01 {
         JPanel leftFlow1 = new JPanel();
         JPanel leftFlow2 = new JPanel();
         JPanel leftFlow3 = new JPanel();
+        JPanel quiz = new JPanel();
         JPanel flow2 = new JPanel();
         JPanel typeIn1 = new JPanel();
         JPanel typeIn2 = new JPanel();
@@ -153,6 +164,7 @@ class SlangDictionary_PA01 {
         leftFlow2.setLayout(gridBagLayout);
         leftFlow3.setBorder(new TitledBorder("On this day slang word"));
         leftFlow3.setLayout(gridBagLayout);
+        quiz.setBorder(new TitledBorder("Quiz"));
         BoxLayout boxlayout = new BoxLayout(rightPanel, BoxLayout.Y_AXIS);
         rightPanel.setLayout(boxlayout);
         leftPanel.setLayout(new GridLayout(5, 1));
@@ -199,6 +211,7 @@ class SlangDictionary_PA01 {
         leftPanel.add(leftFlow2);
         leftPanel.add(leftFlow1);
         leftPanel.add(leftFlow3);
+        leftPanel.add(quiz);
 
         rightFlow.add(resetButton);
         rightFlow.add(historyButton);
