@@ -74,6 +74,10 @@ class SlangDictionary_PA01 {
     public static int rowsize;
     public static List<String> listOfKeys;
     public static String[][] data;
+    public static int answer;
+    public static String a,b,c,d, ans, question;
+    public static JLabel ques = new JLabel("Press button to play!!");
+
 
     public static JTable table;
 
@@ -132,7 +136,6 @@ class SlangDictionary_PA01 {
         slangField1.setEditable(false);
         defField1.setEditable(false);
 
-        
         // Define the panel
         JPanel mainPanel = new JPanel();
         JPanel leftPanel = new JPanel();
@@ -214,6 +217,7 @@ class SlangDictionary_PA01 {
 
         typeIn7.add(letsquiz);
         typeIn7.add(quizBox);
+        typeIn7.add(ques);
         typeIn8.add(aButton);
         typeIn8.add(aField);
         typeIn8.add(bButton);
@@ -243,7 +247,6 @@ class SlangDictionary_PA01 {
 
         JList historyList;
         DefaultListModel listModel = new DefaultListModel();
-        
 
         // 1. Search
         final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
@@ -357,10 +360,9 @@ class SlangDictionary_PA01 {
                 while (dtm.getRowCount() > 0) {
                     dtm.removeRow(0);
                 }
-                int i=0;
-                while (i<rowsize)
-                {
-                    dtm.addRow(new Object[]{data[i][0], data[i][1]});
+                int i = 0;
+                while (i < rowsize) {
+                    dtm.addRow(new Object[] { data[i][0], data[i][1] });
                     i++;
                 }
             }
@@ -373,7 +375,122 @@ class SlangDictionary_PA01 {
                 historyFrame.add(historyList);
                 historyFrame.setSize(300, 300);
                 historyFrame.setVisible(true);
-                //System.out.println(History);
+                // System.out.println(History);
+            }
+        });
+
+        // 8. Quiz
+        
+        letsquiz.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String s = (String) quizBox.getSelectedItem();
+                
+                if (s == "Slang") {
+                    answer = rand.nextInt(3);
+                    answer +=1;
+                    int rand1 = rand.nextInt(data.length);
+                    int rand2 = rand.nextInt(data.length);
+                    int rand3 = rand.nextInt(data.length);
+                    int rand4 = rand.nextInt(data.length);
+                    aField.setText(data[rand1][1]);
+                    a = data[rand1][0];
+                    String a1 = data[rand1][1];
+                    bField.setText(data[rand2][1]);
+                    b = data[rand2][0];
+                    String b1 = data[rand2][1];
+                    cField.setText(data[rand3][1]);
+                    c = data[rand3][0];
+                    String c1 = data[rand2][1];
+                    dField.setText(data[rand4][1]);
+                    d = data[rand4][0];
+                    String d1 = data[rand2][1];
+                    ArrayList<String> list = new ArrayList<String>();
+                    list.add(a);
+                    list.add(b);
+                    list.add(c);
+                    list.add(d);
+                    ArrayList<String> list1 = new ArrayList<String>();
+                    list1.add(a1);
+                    list1.add(b1);
+                    list1.add(c1);
+                    list1.add(d1);
+                    ans = list.get(answer);
+                    ques.setText("What is the definition of " + list1.get(answer) + " ?");
+                }
+                if (s == "Definition") {
+                    answer = rand.nextInt(3);
+                    answer +=1;
+                    int rand1 = rand.nextInt(data.length);
+                    int rand2 = rand.nextInt(data.length);
+                    int rand3 = rand.nextInt(data.length);
+                    int rand4 = rand.nextInt(data.length);
+                    aField.setText(data[rand1][0]);
+                    a = data[rand1][1];
+                    String a1 = data[rand1][0];
+                    bField.setText(data[rand2][0]);
+                    b = data[rand2][1];
+                    String b1 = data[rand1][0];
+                    cField.setText(data[rand3][0]);
+                    c = data[rand3][1];
+                    String c1 = data[rand1][1];
+                    dField.setText(data[rand4][0]);
+                    d = data[rand4][1];
+                    String d1 = data[rand1][1];
+                    ArrayList<String> list = new ArrayList<String>();
+                    list.add(a);
+                    list.add(b);
+                    list.add(c);
+                    list.add(d);
+                    ArrayList<String> list1 = new ArrayList<String>();
+                    list1.add(a1);
+                    list1.add(b1);
+                    list1.add(c1);
+                    list1.add(d1);
+                    ans = list.get(answer);
+                    ques.setText("What is the slang of " + list1.get(answer) + " ?");
+                }
+            }
+            
+
+        });
+        aButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (ans == a){
+                    JOptionPane.showMessageDialog(frame, "Correct");
+                }
+                else {
+                    JOptionPane.showMessageDialog(frame, "Incorrect");
+                }
+            }
+        });
+        bButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (ans == b){
+                    JOptionPane.showMessageDialog(frame, "Correct");
+                }
+                else {
+                    JOptionPane.showMessageDialog(frame, "Incorrect");
+                }
+            }
+        });
+        cButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (ans == c){
+                    JOptionPane.showMessageDialog(frame, "Correct");
+                }
+                else {
+                    JOptionPane.showMessageDialog(frame, "Incorrect");
+                }
+            }
+        });
+        dButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (ans == d){
+                    JOptionPane.showMessageDialog(frame, "Correct");
+                }
+                else {
+                    JOptionPane.showMessageDialog(frame, "Incorrect");
+                }
             }
         });
         // Set the window to be visible as the default to be false
