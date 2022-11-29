@@ -9,7 +9,6 @@ import java.util.Scanner;
 import javax.swing.*;
 import javax.swing.table.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.Action;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
@@ -76,7 +75,7 @@ class SlangDictionary_PA01 {
     public static String[][] data;
     public static int answer;
     public static String a,b,c,d, ans, question;
-    public static JLabel ques = new JLabel("Press button to play!!");
+    public static JTextField ques = new JTextField("Press to play!!", 40);
 
 
     public static JTable table;
@@ -135,6 +134,7 @@ class SlangDictionary_PA01 {
         resetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         slangField1.setEditable(false);
         defField1.setEditable(false);
+        ques.setEditable(false);
 
         // Define the panel
         JPanel mainPanel = new JPanel();
@@ -394,28 +394,19 @@ class SlangDictionary_PA01 {
                     int rand4 = rand.nextInt(data.length);
                     aField.setText(data[rand1][1]);
                     a = data[rand1][0];
-                    String a1 = data[rand1][1];
                     bField.setText(data[rand2][1]);
                     b = data[rand2][0];
-                    String b1 = data[rand2][1];
                     cField.setText(data[rand3][1]);
                     c = data[rand3][0];
-                    String c1 = data[rand2][1];
                     dField.setText(data[rand4][1]);
                     d = data[rand4][0];
-                    String d1 = data[rand2][1];
                     ArrayList<String> list = new ArrayList<String>();
                     list.add(a);
                     list.add(b);
                     list.add(c);
                     list.add(d);
-                    ArrayList<String> list1 = new ArrayList<String>();
-                    list1.add(a1);
-                    list1.add(b1);
-                    list1.add(c1);
-                    list1.add(d1);
                     ans = list.get(answer);
-                    ques.setText("What is the definition of " + list1.get(answer) + " ?");
+                    ques.setText("What is definition of " + ans +" ?");
                 }
                 if (s == "Definition") {
                     answer = rand.nextInt(3);
@@ -426,28 +417,19 @@ class SlangDictionary_PA01 {
                     int rand4 = rand.nextInt(data.length);
                     aField.setText(data[rand1][0]);
                     a = data[rand1][1];
-                    String a1 = data[rand1][0];
                     bField.setText(data[rand2][0]);
                     b = data[rand2][1];
-                    String b1 = data[rand1][0];
                     cField.setText(data[rand3][0]);
                     c = data[rand3][1];
-                    String c1 = data[rand1][1];
                     dField.setText(data[rand4][0]);
                     d = data[rand4][1];
-                    String d1 = data[rand1][1];
                     ArrayList<String> list = new ArrayList<String>();
                     list.add(a);
                     list.add(b);
                     list.add(c);
                     list.add(d);
-                    ArrayList<String> list1 = new ArrayList<String>();
-                    list1.add(a1);
-                    list1.add(b1);
-                    list1.add(c1);
-                    list1.add(d1);
                     ans = list.get(answer);
-                    ques.setText("What is the slang of " + list1.get(answer) + " ?");
+                    ques.setText("What is slang of " + ans + " ?");
                 }
             }
             
