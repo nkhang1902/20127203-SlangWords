@@ -118,8 +118,8 @@ class SlangDictionary_PA01 {
 
         // table.setEnabled(false);
         String[] combobox = { "Slang", "Definition" };
-        String[] historyColumn = { "Keyword", "Element" };
         keyBox = new JComboBox<>(combobox);
+        quizBox = new JComboBox<>(combobox);
         // Button
         searchButton.setFocusable(false);
         addButton.setFocusable(false);
@@ -150,6 +150,9 @@ class SlangDictionary_PA01 {
         JPanel typeIn4 = new JPanel();
         JPanel typeIn5 = new JPanel();
         JPanel typeIn6 = new JPanel();
+        JPanel typeIn7 = new JPanel();
+        JPanel typeIn8 = new JPanel();
+        JPanel typeIn9 = new JPanel();
         GridBagLayout gridBagLayout = new GridBagLayout();
         mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         mainPanel.setLayout(new GridLayout(1, 2));
@@ -165,9 +168,10 @@ class SlangDictionary_PA01 {
         leftFlow3.setBorder(new TitledBorder("On this day slang word"));
         leftFlow3.setLayout(gridBagLayout);
         quiz.setBorder(new TitledBorder("Quiz"));
+        quiz.setLayout(gridBagLayout);
         BoxLayout boxlayout = new BoxLayout(rightPanel, BoxLayout.Y_AXIS);
         rightPanel.setLayout(boxlayout);
-        leftPanel.setLayout(new GridLayout(5, 1));
+        leftPanel.setLayout(new GridLayout(4, 1));
         // leftPanel.setLayout(new BoxLayout());
         // BoxLayout boxlayout2 = new BoxLayout(leftPanel, BoxLayout.Y_AXIS);
         // leftPanel.setLayout(boxlayout2);
@@ -206,6 +210,23 @@ class SlangDictionary_PA01 {
         leftFlow3.add(typeIn5, new GridBagConstraints(0, 5, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER,
                 GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
         leftFlow3.add(typeIn6, new GridBagConstraints(0, 5, 1, 1, 1.0, 1.0, GridBagConstraints.SOUTH,
+                GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
+
+        typeIn7.add(letsquiz);
+        typeIn7.add(quizBox);
+        typeIn8.add(aButton);
+        typeIn8.add(aField);
+        typeIn8.add(bButton);
+        typeIn8.add(bField);
+        typeIn9.add(cButton);
+        typeIn9.add(cField);
+        typeIn9.add(dButton);
+        typeIn9.add(dField);
+        quiz.add(typeIn7, new GridBagConstraints(0, 5, 1, 1, 1.0, 1.0, GridBagConstraints.NORTH,
+                GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
+        quiz.add(typeIn8, new GridBagConstraints(0, 5, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER,
+                GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
+        quiz.add(typeIn9, new GridBagConstraints(0, 5, 1, 1, 1.0, 1.0, GridBagConstraints.SOUTH,
                 GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
 
         leftPanel.add(leftFlow2);
